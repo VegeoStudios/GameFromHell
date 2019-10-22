@@ -7,6 +7,14 @@ public class NodeController : MonoBehaviour
 
     public List<Transform> toList;
 
+    public void Start()
+    {
+        foreach (Transform dest in toList)
+        {
+
+        }
+    }
+
     public void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

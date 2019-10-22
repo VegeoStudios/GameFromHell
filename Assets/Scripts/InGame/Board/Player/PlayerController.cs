@@ -6,10 +6,20 @@ public class PlayerController : MonoBehaviour
 {
     public string playerName;
     public Color color;
-    public Mesh shape;
+    public Transform location;
+
+    public void Start()
+    {
+        gameObject.GetComponent<Renderer>().material.color = color;
+    }
 
     public void OnDrawGizmos()
     {
-        
+        gameObject.GetComponent<Renderer>().sharedMaterial.color = color;
+    }
+
+    public void UpdateLocation()
+    {
+
     }
 }

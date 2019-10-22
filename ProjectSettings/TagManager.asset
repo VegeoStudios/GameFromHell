@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Route
+  - Nodes
+  - Paths
+  - Players
+  - Cameras
+  - Cards
+  - Lights
   layers:
   - Default
   - TransparentFX
