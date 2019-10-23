@@ -6,6 +6,8 @@ public class Route : MonoBehaviour
 {
     public List<Transform> childNodeList = new List<Transform>();
 
+    public Texture pathTexture;
+
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

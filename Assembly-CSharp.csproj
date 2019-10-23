@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\InGame\Board\Node\Nodes\DareNode.cs" />
     <Compile Include="Assets\Scripts\InGame\Board\Node\Nodes\EndNode.cs" />
     <Compile Include="Assets\Scripts\InGame\Board\Node\Nodes\StartNode.cs" />
+    <Compile Include="Assets\Scripts\InGame\Board\Node\PathDisplay.cs" />
     <Compile Include="Assets\Scripts\InGame\Board\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\InGame\Board\Route.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
