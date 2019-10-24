@@ -10,11 +10,15 @@ public class NodeController : MonoBehaviour
     public int pointValue;
     public bool shown;
 
+    public List<GameObject> extras = new List<GameObject>();
+
 
     private void Start()
     {
         SetVisibility();
         ProcessText();
+
+        transform.GetChild(1).GetComponent<TimerController>().StartTime();
     }
 
     public void Show()
@@ -50,12 +54,19 @@ public class NodeController : MonoBehaviour
 
         foreach(string c in components)
         {
-            string[] parts = split.Split(c);
+            string cc = c.Substring(1, c.Length - 2);
+            string[] parts = split.Split(cc);
 
             switch (parts[0])
             {
                 case "time":
-
+                    text.Replace(c, parts[1] + " seconds");
+                    print(c);
+                    print(text);
+                    transform.GetChild(0).GetComponent<TextMesh>().text = text;
+                    GameObject timer = Instantiate(extras[0]) as GameObject;
+                    timer.transform.parent = this.transform;
+                    timer.GetComponent<TimerController>().SetTime(int.Parse(parts[1]));
                     break;
                 default:
 
