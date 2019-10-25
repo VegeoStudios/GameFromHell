@@ -8,6 +8,11 @@ public class TimerController : MonoBehaviour
     private int time;
     public TextMesh text;
 
+    private void Update()
+    {
+        DetectTouch();
+    }
+
     public void StartTime()
     {
         time = timeValue;
@@ -32,5 +37,22 @@ public class TimerController : MonoBehaviour
             text.text = time.ToString();
         }
         text.color = Color.red;
+    }
+
+    private void DetectTouch()
+    {
+        foreach(Touch touch in Input.touches)
+        {
+            if (touch.phase == TouchPhase.Ended)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit);
+                if (hit.transform == transform)
+                {
+                    StartTime();
+                }
+            }
+        }
     }
 }

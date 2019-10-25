@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 188580790702487667}
   - component: {fileID: 3883919468562317254}
   - component: {fileID: 4176115321470718648}
+  - component: {fileID: 7560915192540709651}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -94,6 +95,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeValue: 20
   text: {fileID: 1011822797979647506}
+--- !u!64 &7560915192540709651
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884175940724119707}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 3660652376195365350, guid: 18385821e87c0dd4b9851d1f4c199866, type: 3}
 --- !u!1 &2679749260079663614
 GameObject:
   m_ObjectHideFlags: 0

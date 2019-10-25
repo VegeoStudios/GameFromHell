@@ -17,8 +17,6 @@ public class NodeController : MonoBehaviour
     {
         SetVisibility();
         ProcessText();
-
-        transform.GetChild(1).GetComponent<TimerController>().StartTime();
     }
 
     public void Show()
@@ -60,7 +58,7 @@ public class NodeController : MonoBehaviour
             switch (parts[0])
             {
                 case "time":
-                    text.Replace(c, parts[1] + " seconds");
+                    text = text.Replace(c, parts[1] + " seconds");
                     print(c);
                     print(text);
                     transform.GetChild(0).GetComponent<TextMesh>().text = text;
