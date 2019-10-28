@@ -63,9 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\InGame\CardAnimator.cs" />
+    <Compile Include="Assets\Scripts\InGame\CameraController.cs" />
     <Compile Include="Assets\Scripts\InGame\Extras\TimerController.cs" />
     <Compile Include="Assets\Scripts\InGame\NodeController.cs" />
+    <Compile Include="Assets\Scripts\InGame\Nodes\DareNode.cs" />
+    <Compile Include="Assets\Scripts\InGame\PathAnimator.cs" />
+    <None Include="Assets\Shaders\3DText.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/vegeo/Desktop/Unity Projects/GameFromHell/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

@@ -6,71 +6,37 @@ using System.Text.RegularExpressions;
 public class NodeController : MonoBehaviour
 {
     public List<Transform> exits = new List<Transform>();
+    private List<Transform> paths = new List<Transform>();
 
     public int pointValue;
     public bool shown;
 
-    public List<GameObject> extras = new List<GameObject>();
+    public GameObject pathObject;
 
 
-    private void Start()
+    void Start()
     {
-        SetVisibility();
-        ProcessText();
+        CreatePaths();
     }
 
-    public void Show()
+    private void CreatePaths()
     {
-        transform.localEulerAngles = new Vector3(-90, 0, 0);
-    }
-
-    public void Hide()
-    {
-        transform.localEulerAngles = new Vector3(90, 0, 0) ;
-    }
-
-    private void SetVisibility()
-    {
-        if (!shown)
+        foreach(Transform exit in exits)
         {
-            Hide();
+            GameObject path = Instantiate(pathObject) as GameObject;
+            path.transform.parent = transform;
+
+            Vector3 start1 = transform.position - new Vector3(0, 0.2f, 0);
+            Vector3 end1 = exit.position - new Vector3(0, 0.2f, 0);
+            Vector3 start2 = transform.position - new Vector3(0, 0.1f, 0);
+            Vector3 end2 = exit.position - new Vector3(0, 0.1f, 0);
+
+            path.transform.GetComponent<LineRenderer>().SetPosition(0, start1);
+            path.transform.GetChild(0).GetComponent<LineRenderer>().SetPosition(0, start2);
+            path.transform.GetComponent<LineRenderer>().SetPosition(1, end1);
+            path.transform.GetChild(0).GetComponent<LineRenderer>().SetPosition(1, end2);
+            path.transform.GetComponent<PathAnimator>().CreateCollision();
+            path.transform.GetComponent<PathAnimator>().SetState(PathAnimator.PathState.Idle);
         }
-    }
-
-    private void ProcessText()
-    {
-        string text = transform.GetChild(0).GetComponent<TextMesh>().text;
-        Regex filter = new Regex("\\[(.*?)\\]");
-        Regex split = new Regex(":");
-        MatchCollection mc = filter.Matches(text);
-
-        List<string> components = new List<string>();
-        foreach(Match m in mc)
-        {
-            components.Add(m.Value);
-        }
-
-        foreach(string c in components)
-        {
-            string cc = c.Substring(1, c.Length - 2);
-            string[] parts = split.Split(cc);
-
-            switch (parts[0])
-            {
-                case "time":
-                    text = text.Replace(c, parts[1] + " seconds");
-                    print(c);
-                    print(text);
-                    transform.GetChild(0).GetComponent<TextMesh>().text = text;
-                    GameObject timer = Instantiate(extras[0]) as GameObject;
-                    timer.transform.parent = this.transform;
-                    timer.GetComponent<TimerController>().SetTime(int.Parse(parts[1]));
-                    break;
-                default:
-
-                    break;
-            }
-        }
-
     }
 }
