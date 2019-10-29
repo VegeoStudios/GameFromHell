@@ -6,7 +6,6 @@ public class PathAnimator : MonoBehaviour
 {
     private float targetwidth;
     private float speed;
-    private float targetSpeed;
 
     public float[] widths;
     public float[] speeds;
@@ -30,24 +29,24 @@ public class PathAnimator : MonoBehaviour
         switch (this.state)
         {
             case PathState.Idle:
-                targetwidth = 0.5f;
-                targetSpeed = 0.001f;
-                SetColor(Color.white);
+                targetwidth = widths[0];
+                speed = speeds[0];
+                SetColor(colors[0]);
                 break;
             case PathState.Selectable:
-                targetwidth = 0.8f;
-                targetSpeed = 0.01f;
-                SetColor(Color.green);
+                targetwidth = widths[1];
+                speed = speeds[1];
+                SetColor(colors[1]);
                 break;
             case PathState.Blocked:
-                targetwidth = 0.3f;
-                targetSpeed = 0.005f;
-                SetColor(Color.red);
+                targetwidth = widths[2];
+                speed = speeds[2];
+                SetColor(colors[2]);
                 break;
             case PathState.ActivePath:
-                targetwidth = 0.5f;
-                targetSpeed = 0.02f;
-                SetColor(Color.yellow);
+                targetwidth = widths[3];
+                speed = speeds[3];
+                SetColor(colors[3]);
                 break;
         }
     }
@@ -100,7 +99,6 @@ public class PathAnimator : MonoBehaviour
         LineRenderer lr = transform.GetChild(0).GetComponent<LineRenderer>();
         Vector2 offset = lr.material.GetTextureOffset("_MainTex");
 
-        speed = Mathf.Lerp(speed, targetSpeed, 0.2f);
         offset.x -= speed;
         if (offset.x < 0) offset.x += 1;
 
