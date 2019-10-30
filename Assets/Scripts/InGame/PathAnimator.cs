@@ -11,6 +11,8 @@ public class PathAnimator : MonoBehaviour
     public float[] speeds;
     public Color[] colors;
 
+    public Transform destination;
+
     public enum PathState
     {
         Idle = 0,
@@ -71,7 +73,7 @@ public class PathAnimator : MonoBehaviour
             {
                 if (touch.phase == TouchPhase.Ended)
                 {
-                    
+                    GameManager.gm.currentPlayer.GetComponent<PlayerController>().SelectPath(transform);
                 }
             }
         }
