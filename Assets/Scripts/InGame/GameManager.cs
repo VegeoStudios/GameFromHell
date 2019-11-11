@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Transform endNode;
 
     public Transform playerParent;
+    public Transform dice;
 
     public GameState state;
 
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
                 break;
             case GameState.PlayerRoll:
-
+                dice.GetComponent<DiceController>().Standby();
                 break;
             case GameState.MovePlayer:
 
@@ -59,7 +60,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
         Init();
         CreatePlayers();
     }
@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         gm = this;
+        SetGameState(GameState.PlayerRoll);
     }
 
     private void CreatePlayers()

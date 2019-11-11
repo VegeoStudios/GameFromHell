@@ -879,6 +879,7 @@ GameObject:
   m_Component:
   - component: {fileID: 267920215}
   - component: {fileID: 267920216}
+  - component: {fileID: 267920217}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -918,10 +919,24 @@ MonoBehaviour:
   playerPrefab: {fileID: 9220279579172064711, guid: 899bb4c11c855484fa2fd77a776eed04,
     type: 3}
   playerList: []
-  startNode: {fileID: 0}
-  endNode: {fileID: 0}
-  playerParent: {fileID: 0}
+  startNode: {fileID: 381663327}
+  endNode: {fileID: 1156110274}
+  playerParent: {fileID: 843575724}
+  dice: {fileID: 1850409334}
   state: 0
+--- !u!65 &267920217
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267920214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 50, y: 1, z: 50}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!1001 &283096214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2193,7 +2208,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2412,6 +2427,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 133094761224059598, guid: 2ee8474f9f1d80f418ac4e2515ff2306,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 133094761224059598, guid: 2ee8474f9f1d80f418ac4e2515ff2306,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ee8474f9f1d80f418ac4e2515ff2306, type: 3}
@@ -3299,6 +3324,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6916954639895411486, guid: 197865209d01db1488146df9ce23ac40,
     type: 3}
   m_PrefabInstance: {fileID: 246476619}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1850409334 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 133094761224059598, guid: 2ee8474f9f1d80f418ac4e2515ff2306,
+    type: 3}
+  m_PrefabInstance: {fileID: 1221526822}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1850638058 stripped
 Transform:

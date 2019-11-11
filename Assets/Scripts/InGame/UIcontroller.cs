@@ -26,7 +26,7 @@ public class UIcontroller : MonoBehaviour
     {
         this.player = GameManager.gm.currentPlayer;
 
-        topBar.GetComponent<MeshRenderer>().material.color = player.GetComponent<PlayerController>().color;
+        topBar.GetChild(0).GetComponent<MeshRenderer>().material.color = player.GetComponent<PlayerController>().color;
         nameText.GetComponent<TextMesh>().text = player.GetComponent<PlayerController>().playerName;
         scoreText.GetComponent<TextMesh>().text = player.GetComponent<PlayerController>().score.ToString();
     }

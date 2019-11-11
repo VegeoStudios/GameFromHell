@@ -5,23 +5,33 @@ using System.Text.RegularExpressions;
 
 public class NodeController : MonoBehaviour
 {
-    public List<Transform> exits = new List<Transform>();
+    public List<Transform> exitTransforms = new List<Transform>();
     private List<Transform> paths = new List<Transform>();
 
-    public int pointValue;
-    public bool shown;
+    private bool shown;
+
+    public NodeData data;
 
     public GameObject pathObject;
 
-
-    void Start()
+    public void Init()
     {
-        CreatePaths();
+        transform.position = new Vector3(data.pos[0], 0, data.pos[1]);
+        
+        if (data.type == "DARE")
+        {
+            transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text = data.text;
+            transform.GetComponent<DareNode>().Init();
+        }
     }
 
-    private void CreatePaths()
+    public void CreatePaths()
     {
-        foreach(Transform exit in exits)
+        foreach (int exitid in data.exits)
+        {
+            exitTransforms.Add(BoardController.board.GetNode(exitid));
+        }
+        foreach (Transform exit in exitTransforms)
         {
             GameObject path = Instantiate(pathObject) as GameObject;
             path.transform.parent = transform;

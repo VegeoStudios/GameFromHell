@@ -1,0 +1,278 @@
+{
+	"properties": {
+		"name": "Original Game From Hell",
+		"dice": 6,
+		"hideNodes": false,
+		"startNodeID": 0,
+		"endNodeID": 33
+	},
+	"nodes": [
+		{
+			"id": 0,
+			"pos": [0, -8],
+			"type": "START",
+			"exits": [1]
+		},
+		{
+			"id": 1,
+			"pos": [0, 0],
+			"type": "DARE",
+			"text": "Say everything to the tune of Baby Shark for 1 round",
+			"value": 3,
+			"exits": [2, 8]
+		},
+		{
+			"id": 2,
+			"pos": [8, 0],
+			"type":"DARE",
+			"text": "Say \"banana\" after every sentence for 2 rounds",
+			"value": 2,
+			"exits": [3]
+		},
+		{
+			"id": 3,
+			"pos": [16, 0],
+			"type":"DARE",
+			"text": "Body ice challenge",
+			"value": 3,
+			"exits": [4]
+		},
+		{
+			"id": 4,
+			"pos": [16, -8],
+			"type":"DARE",
+			"text": "Belly dance for [time:120]",
+			"value": 6,
+			"exits": [5]
+		},
+		{
+			"id": 5,
+			"pos": [16, -16],
+			"type":"DARE",
+			"text": "Talk in an accent until the game is over",
+			"value": 10,
+			"exits": [6]
+		},
+		{
+			"id": 6,
+			"pos": [8, -16],
+			"type":"DARE",
+			"text": "Tell 1 of your biggest secrets",
+			"value": 10,
+			"exits": [7]
+		},
+		{
+			"id": 7,
+			"pos": [0, -16],
+			"type":"DARE",
+			"text": "Group decides dare",
+			"value": 5,
+			"exits": [13]
+		},
+		{
+			"id": 8,
+			"pos": [-8, 0],
+			"type":"DARE",
+			"text": "Attempt the splits",
+			"value": 2,
+			"exits": [9]
+		},
+		{
+			"id": 9,
+			"pos": [-16, 0],
+			"type":"DARE",
+			"text": "[time:60] of hotseat",
+			"value": 4,
+			"exits": [10]
+		},
+		{
+			"id": 10,
+			"pos": [-16, -8],
+			"type":"DARE",
+			"text": "Explain your kink for [time:120]",
+			"value": 6,
+			"exits": [11]
+		},
+		{
+			"id": 11,
+			"pos": [-16, -16],
+			"type":"DARE",
+			"text": "Swap clothes with the person across from you",
+			"value": 2,
+			"exits": [12]
+		},
+		{
+			"id": 12,
+			"pos": [-8, -16],
+			"type":"DARE",
+			"text": "Act like a frying bacon for [time:30]",
+			"value": 2,
+			"exits": [7]
+		},
+		{
+			"id": 13,
+			"pos": [0, -24],
+			"type":"DARE",
+			"text": "Pick-up line competition",
+			"value": 4,
+			"exits": [14, 24]
+		},
+		{
+			"id": 14,
+			"pos": [-8, -24],
+			"type":"DARE",
+			"text": "Text your crush: \"I'm pregnant\"",
+			"value": 7,
+			"exits": [15]
+		},
+		{
+			"id": 15,
+			"pos": [-16, -24],
+			"type":"DARE",
+			"text": "Try to turn on the person 3 positions to your left",
+			"value": 6,
+			"exits": [16]
+		},
+		{
+			"id": 16,
+			"pos": [-24, -24],
+			"type":"DARE",
+			"text": "Wear the person to your right's bra",
+			"value": 4,
+			"exits": [17]
+		},
+		{
+			"id": 17,
+			"pos": [-24, -16],
+			"type":"DARE",
+			"text": "Try a weird food combo",
+			"value": 5,
+			"exits": [18]
+		},
+		{
+			"id": 18,
+			"pos": [-24, -8],
+			"type":"DARE",
+			"text": "Dad joke competition",
+			"value": 4,
+			"exits": [19]
+		},
+		{
+			"id": 19,
+			"pos": [-24, 0],
+			"type":"DARE",
+			"text": "Call your crush and explain how to play monopoly",
+			"value": 9,
+			"exits": [20]
+		},
+		{
+			"id": 20,
+			"pos": [-24, 8],
+			"type":"DARE",
+			"text": "Teach sex ed",
+			"value": 4,
+			"exits": [21]
+		},
+		{
+			"id": 21,
+			"pos": [-16, 8],
+			"type":"DARE",
+			"text": "Put the person to your right's sock in your mouth for 1 turn",
+			"value": 5,
+			"exits": [22]
+		},
+		{
+			"id": 22,
+			"pos": [-8, 8],
+			"type":"DARE",
+			"text": "Lick a group chosen face",
+			"value": 3,
+			"exits": [23]
+		},
+		{
+			"id": 23,
+			"pos": [0, 8],
+			"type":"DARE",
+			"text": "Group decides dare",
+			"value": 5,
+			"exits": [33]
+		},
+		{
+			"id": 24,
+			"pos": [8, -24],
+			"type":"DARE",
+			"text": "Name your best quality",
+			"value": 4,
+			"exits": [25]
+		},
+		{
+			"id": 25,
+			"pos": [16, -24],
+			"type":"DARE",
+			"text": "Spin the bottle",
+			"value": 8,
+			"exits": [26]
+		},
+		{
+			"id": 26,
+			"pos": [24, -24],
+			"type":"DARE",
+			"text": "Teach sex ed",
+			"value": 4,
+			"exits": [27]
+		},
+		{
+			"id": 27,
+			"pos": [24, -16],
+			"type":"DARE",
+			"text": "Call your crush and explain how to play monopoly",
+			"value": 9,
+			"exits": [28]
+		},
+		{
+			"id": 28,
+			"pos": [24, -8],
+			"type":"DARE",
+			"text": "Dad joke competition",
+			"value": 4,
+			"exits": [29]
+		},
+		{
+			"id": 29,
+			"pos": [24, -0],
+			"type":"DARE",
+			"text": "Try a weird food combo",
+			"value": 5,
+			"exits": [30]
+		},
+		{
+			"id": 30,
+			"pos": [24, 8],
+			"type":"DARE",
+			"text": "Wear the person to your right's bra",
+			"value": 4,
+			"exits": [31]
+		},
+		{
+			"id": 31,
+			"pos": [16, 8],
+			"type":"DARE",
+			"text": "Sit on a random person's lap",
+			"value": 4,
+			"exits": [32]
+		},
+		{
+			"id": 32,
+			"pos": [8, 8],
+			"type":"DARE",
+			"text": "Freestyle rap for [time:60]",
+			"value": 8,
+			"exits": [23]
+		},
+		{
+			"id": 33,
+			"pos": [0, 16],
+			"type": "END"
+		}
+	]
+}

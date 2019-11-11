@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Boards/OGBoard.unity
+- path: Assets/Scenes/Boards/TestBoard.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

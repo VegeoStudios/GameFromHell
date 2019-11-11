@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4764497824177685366}
   - component: {fileID: 7293856860857696102}
   - component: {fileID: 1385551731540477770}
+  - component: {fileID: 7257784481490275972}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -126,3 +127,17 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   place: {fileID: 0}
   score: 0
+--- !u!64 &7257784481490275972
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9220279579172064711}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 3252224991405807402, guid: 18385821e87c0dd4b9851d1f4c199866, type: 3}

@@ -8,14 +8,14 @@ public class DareNode : MonoBehaviour
 
     public List<GameObject> extras = new List<GameObject>();
 
-    private void Start()
+    public void Init()
     {
         ProcessText();
     }
 
     private void ProcessText()
     {
-        string text = transform.GetChild(0).GetComponent<TextMesh>().text;
+        string text = transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text;
         Regex filter = new Regex("\\[(.*?)\\]");
         Regex split = new Regex(":");
         MatchCollection mc = filter.Matches(text);
@@ -35,7 +35,7 @@ public class DareNode : MonoBehaviour
             {
                 case "time":
                     text = text.Replace(c, parts[1] + " seconds");
-                    transform.GetChild(0).GetComponent<TextMesh>().text = text;
+                    transform.GetChild(0).GetComponent<TMPro.TextMeshPro>().text = text;
                     GameObject timer = Instantiate(extras[0]) as GameObject;
                     timer.transform.parent = this.transform;
                     timer.GetComponent<TimerController>().SetTime(int.Parse(parts[1]));

@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         if (transform.position != targetLocation) return;
 
         rollNumber--;
-        List<Transform> exits = place.GetComponent<NodeController>().exits;
+        List<Transform> exits = place.GetComponent<NodeController>().exitTransforms;
 
         if (exits.Count == 1)
         {
