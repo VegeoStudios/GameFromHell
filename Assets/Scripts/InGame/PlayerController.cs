@@ -4,75 +4,70 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public string playerName;
-    public Color color;
+    public PlayerData data;
 
-    public Transform place;
-    public int score = 0;
+    private Vector3 target;
 
-    private Vector3 targetLocation;
-    private Vector3 cardViewTarget;
-    private int rollNumber = -1;
+    private float dist;
+    private float truedist;
+    private float angle;
+
+    public bool stationary = true;
+
     private Vector3 velocity = Vector3.zero;
 
-    private bool waiting = false;
-
-    private void Update()
+    public void Update()
     {
-        Animate();
         Process();
+        Animate();
     }
 
-    private void Animate()
+    public void Init(PlayerData pd)
     {
+        data = pd;
 
-        transform.position = Vector3.SmoothDamp(transform.position, targetLocation, ref velocity, 0.1f);
-        if (Vector3.Distance(transform.position, targetLocation) < 0.01) transform.position = targetLocation;
+        transform.GetComponent<MeshRenderer>().material.SetColor("color", pd.color);
+        transform.GetComponent<MeshRenderer>().material.color = pd.color;
+
+        transform.position = BoardController.GetNode(data.place).position;
+        SetPosition(BoardController.GetNode(data.place));
+    }
+
+    public void SetPosition(Transform position)
+    {
+        data.place = position.GetComponent<NodeController>().data.id;
+        angle = UnityEngine.Random.Range(0, Mathf.PI * 2);
+        dist = UnityEngine.Random.Range(0, 1.8f);
+        truedist = dist;
+        
     }
 
     private void Process()
     {
-        if (waiting) return;
-        if (transform.position != targetLocation) return;
-
-        rollNumber--;
-        List<Transform> exits = place.GetComponent<NodeController>().exitTransforms;
-
-        if (exits.Count == 1)
+        if (Camera.main.GetComponent<CameraController>().target == BoardController.GetNode(data.place).GetChild(1))
         {
-            place = exits[0];
-        }
-        else
+            truedist = 3;
+        } else
         {
-            GameManager.gm.SetGameState(GameManager.GameState.ChoosePath);
-            waiting = true;
+            truedist = dist;
+        }
+
+        target = BoardController.GetNode(data.place).position + new Vector3(Mathf.Cos(angle) * truedist, 0.3f, Mathf.Sin(angle) * truedist); ;
+
+        
+    }
+
+    private void Animate()
+    {
+        if (Vector3.Distance(target, transform.position) > 0.01)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, target, ref velocity, 0.35f);
+            stationary = false;
+        }
+        else if (target != transform.position)
+        {
+            transform.position = target;
+            stationary = true;
         }
     }
-
-    public void Initiate(string playerName, Color color)
-    {
-        this.playerName = playerName;
-        this.color = color;
-
-        transform.GetComponent<MeshRenderer>().material.color = this.color;
-
-        AssignPlace(transform.parent.parent.GetChild(0).GetChild(0));
-    }
-
-    public void SelectPath(Transform path)
-    {
-        waiting = false;
-        place = path.GetComponent<PathAnimator>().destination;
-    }
-
-    public void AssignPlace(Transform place)
-    {
-        this.place = place;
-
-        float angle = Random.value * Mathf.PI * 2;
-        float dist = Random.value * 1.6f;
-
-        targetLocation = place.position + new Vector3(Mathf.Cos(angle) * dist, 0.1f, Mathf.Sin(angle) * dist);
-    }
-
 }

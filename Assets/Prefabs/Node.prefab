@@ -94,11 +94,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d3de750c1f7449b58cb3ae02caa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exits: []
-  pointValue: 0
-  shown: 0
+  exitTransforms: []
+  data:
+    id: 0
+    pos: 
+    type: 
+    exits: 
+    text: 
+    value: 0
   pathObject: {fileID: 6692069182477145098, guid: f65d1106b5c5e524597f70c40e9b9d6b,
     type: 3}
+  cardCamPos: {fileID: 4621425546392406995}
+  nodeCamPos: {fileID: 8688628231748784410}
 --- !u!64 &7135367521648781933
 MeshCollider:
   m_ObjectHideFlags: 0

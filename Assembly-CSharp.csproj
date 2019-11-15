@@ -63,17 +63,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\InGame\BoardController.cs" />
-    <Compile Include="Assets\Scripts\InGame\CameraController.cs" />
     <Compile Include="Assets\Scripts\InGame\Extras\DiceController.cs" />
     <Compile Include="Assets\Scripts\InGame\Extras\TimerController.cs" />
-    <Compile Include="Assets\Scripts\InGame\GameManager.cs" />
-    <Compile Include="Assets\Scripts\InGame\NodeController.cs" />
-    <Compile Include="Assets\Scripts\InGame\Nodes\DareNode.cs" />
-    <Compile Include="Assets\Scripts\InGame\PathAnimator.cs" />
+    <Compile Include="Assets\Scripts\InGame\Nodes\NodeController.cs" />
+    <Compile Include="Assets\Scripts\InGame\Nodes\NodeTypes\DareNode.cs" />
     <Compile Include="Assets\Scripts\InGame\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\InGame\Structure\BoardController.cs" />
     <Compile Include="Assets\Scripts\InGame\Structure\BoardData.cs" />
-    <Compile Include="Assets\Scripts\InGame\UIcontroller.cs" />
+    <Compile Include="Assets\Scripts\InGame\Structure\PlayerData.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\CameraController.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\NewPlayerButton.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\PathAnimator.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\PlayerMenuController.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\PlayerSettingsController.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\PlayerUI.cs" />
+    <Compile Include="Assets\Scripts\InGame\UI\UIcontroller.cs" />
+    <Compile Include="Assets\Scripts\Menus\BoardSelect.cs" />
+    <Compile Include="Assets\Scripts\Menus\PlayButton.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />

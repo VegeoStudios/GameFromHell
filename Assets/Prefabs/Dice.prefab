@@ -133,3 +133,9 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 180}
   - {x: 270, y: 0, z: 0}
   - {x: 0, y: 0, z: 90}
+  shownPos: {x: 0, y: -0.3, z: 1}
+  hiddenPos: {x: 0, y: -1, z: 0}
+  currentNum: 0
+  hidden: 1
+  rolled: 0
+  rolling: 0
