@@ -32,7 +32,7 @@ public class NodeController : MonoBehaviour
     {
         foreach (int exitid in data.exits)
         {
-            exitTransforms.Add(BoardController.GetNode(exitid));
+            exitTransforms.Add(BoardController.board.GetNode(exitid));
         }
         foreach (Transform exit in exitTransforms)
         {
@@ -44,6 +44,9 @@ public class NodeController : MonoBehaviour
             Vector3 end1 = exit.position - new Vector3(0, 0.6f, 0);
             Vector3 start2 = transform.position - new Vector3(0, 0.5f, 0);
             Vector3 end2 = exit.position - new Vector3(0, 0.5f, 0);
+
+            path.transform.GetComponent<PathAnimator>().from = transform;
+            path.transform.GetComponent<PathAnimator>().destination = exit;
 
             path.transform.GetComponent<LineRenderer>().SetPosition(0, start1);
             path.transform.GetChild(0).GetComponent<LineRenderer>().SetPosition(0, start2);

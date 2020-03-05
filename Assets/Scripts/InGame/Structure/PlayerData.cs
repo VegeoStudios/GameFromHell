@@ -9,4 +9,5 @@ public class PlayerData
     public Color color;
     public int score;
     public int place;
+    public bool finished;
 }

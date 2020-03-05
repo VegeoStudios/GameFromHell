@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class BoardController : MonoBehaviour
@@ -13,39 +14,47 @@ public class BoardController : MonoBehaviour
     public Transform endPlayerParent;
 
     public Transform dareUI;
+    public Transform playerUI;
+    public Transform settingsButton;
 
     public static BoardData boardData;
 
     public GameObject[] nodePrefabs;
     public GameObject playerPrefab;
 
-    public static List<PlayerData> playerData;
+    [HideInInspector] public List<int> queue;
 
     public string filepath;
 
-    public static BoardState state = BoardState.PlayerChoose;
+    [HideInInspector] public BoardState state = BoardState.PlayerChoose;
 
-    public static Transform currentPlayer;
+    [HideInInspector] public Transform currentPlayer;
 
-    public static int queueNum = 0;
+    [HideInInspector] public int queueNum = 0;
 
-    private static int dicenum;
+    [HideInInspector] private int dicenum;
 
-    private static int tonode = -1;
+    private int tonode = -1;
+
+    private int finishedCount = 0;
+
+    public List<Color> playerColors;
 
     public enum BoardState
     {
-        PlayerChoose,
-        DiceRoll,
-        PlayerMove,
-        ChoosePath,
-        Card,
-        NextPlayerAnimate
+        PlayerChoose = 0,
+        DiceRoll = 1,
+        PlayerMove = 2,
+        ChoosePath = 3,
+        Card = 4,
+        NextPlayerAnimate = 5,
+        End = 6
     }
 
     void Start()
     {
         Generate();
+        SetState(BoardState.PlayerChoose);
     }
 
     private void Update()
@@ -59,17 +68,19 @@ public class BoardController : MonoBehaviour
 
         if (boardData == null)
         {
-            boardData = JsonUtility.FromJson<BoardData>(File.ReadAllText(Application.dataPath + "/Boards/OG.json"));
+            boardData = JsonUtility.FromJson<BoardData>(File.ReadAllText(Application.streamingAssetsPath + "/DefaultBoards/OG.json"));
         }
 
         foreach(NodeData node in boardData.nodes)
         {
             GameObject nodeObject;
+
             switch (node.type)
             {
                 case "START":
                     nodeObject = Instantiate(nodePrefabs[0]);
                     Camera.main.GetComponent<CameraController>().target = nodeObject.transform.GetChild(3);
+                    Camera.main.GetComponent<CameraController>().overHead = nodeObject.transform.GetChild(3);
                     break;
                 case "DARE":
                     nodeObject = Instantiate(nodePrefabs[1]);
@@ -94,42 +105,41 @@ public class BoardController : MonoBehaviour
         
     }
 
-    public static Transform GetNode(int nodenum)
+    public Transform GetNode(int nodenum)
     {
-        return board.transform.GetChild(nodenum);
+        return transform.GetChild(nodenum);
     }
 
-    public static NodeData GetNodeData(int nodenum)
+    public NodeData GetNodeData(int nodenum)
     {
         return GetNode(nodenum).GetComponent<NodeController>().data;
     }
 
     public void StartGame()
     {
+        foreach (Transform player in PlayerMenuController.playerList) if (player.GetChild(2).GetChild(0).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text.Length < 3) return;
+
         int i = 0;
-        playerData = new List<PlayerData>();
-        foreach(Transform player in PlayerMenuController.playerList)
+        queue = new List<int>();
+        foreach (Transform player in PlayerMenuController.playerList)
         {
             PlayerData pd = new PlayerData();
             pd.name = player.GetChild(2).GetChild(0).GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text;
-            if (pd.name.Length < 3) return;
 
-            pd.color = new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));
+            pd.color = playerColors[i];
             pd.score = 0;
             pd.place = boardData.properties.startNodeID;
             pd.id = i;
+            pd.finished = false;
 
             i++;
 
-            playerData.Add(pd);
-        }
+            queue.Add(pd.id);
 
-        foreach (PlayerData pd in playerData)
-        {
-            GameObject player = Instantiate(playerPrefab) as GameObject;
-            player.transform.SetParent(playerParent);
+            GameObject newPlayer = Instantiate(playerPrefab) as GameObject;
+            newPlayer.transform.SetParent(playerParent);
 
-            player.transform.GetComponent<PlayerController>().Init(pd);
+            newPlayer.transform.GetComponent<PlayerController>().Init(pd);
         }
 
         Camera.main.GetComponent<CameraController>().target = GetPlayer(0).GetChild(0);
@@ -137,22 +147,38 @@ public class BoardController : MonoBehaviour
         PlayerMenuController.playerMenuController.transform.gameObject.SetActive(false);
 
         currentPlayer = playerParent.GetChild(queueNum);
+
+        playerUI.gameObject.SetActive(true);
+
+        settingsButton.gameObject.SetActive(true);
+
+        playerUI.GetComponent<PlayerUIController>().CreateUI();
+        playerUI.GetComponent<PlayerUIController>().UpdateUI();
+
+
+
         SetState(BoardState.DiceRoll);
     }
 
-    public static Transform GetPlayer(int id)
+    public Transform GetPlayer(int id)
     {
         return board.playerParent.GetChild(id);
     }
 
-    public static PlayerData GetPlayerData(int id)
+    public PlayerData GetPlayerData(int id)
     {
         return GetPlayer(id).GetComponent<PlayerController>().data;
     }
 
-    public static void SetState(BoardState newstate)
+    public void SetPlayerData(int id, PlayerData pd)
+    {
+        GetPlayer(id).GetComponent<PlayerController>().data = pd;
+    }
+
+    public void SetState(BoardState newstate)
     {
         state = newstate;
+        Camera.main.GetComponent<CameraController>().rate = Camera.main.GetComponent<CameraController>().GetRates()[(int)state];
 
         switch (state)
         {
@@ -165,7 +191,7 @@ public class BoardController : MonoBehaviour
                 break;
             case BoardState.ChoosePath:
                 DiceController.dice.Hide();
-                Camera.main.GetComponent<CameraController>().target = GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetChild(2);
+                Camera.main.GetComponent<CameraController>().target = GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetChild(3);
                 foreach(Transform path in GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetComponent<NodeController>().paths)
                 {
                     path.GetComponent<PathAnimator>().SetState(PathAnimator.PathState.Selectable);
@@ -174,20 +200,36 @@ public class BoardController : MonoBehaviour
             case BoardState.Card:
                 DiceController.dice.Hide();
                 Camera.main.GetComponent<CameraController>().target = GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetChild(1);
-                board.dareUI.gameObject.SetActive(true);
+                dareUI.gameObject.SetActive(true);
+                dareUI.GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().SetText("" + GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetComponent<NodeController>().data.value);
                 break;
             case BoardState.NextPlayerAnimate:
-                board.dareUI.gameObject.SetActive(false);
-                queueNum++;
-                if (queueNum == board.playerParent.childCount) queueNum = 0;
-                currentPlayer = GetPlayer(queueNum);
+                dareUI.gameObject.SetActive(false);
+                int temp = queue[0];
+                queue.RemoveAt(0);
+                queue.Insert(queue.Count - finishedCount, temp);
+                if (GetPlayerData(temp).finished)
+                {
+                    finishedCount++;
+                }
+                if (queue.Count == finishedCount)
+                {
+                    SetState(BoardState.End);
+                    break;
+                }
+                currentPlayer = GetPlayer(queue[0]);
                 Camera.main.GetComponent<CameraController>().target = currentPlayer.GetChild(0);
                 SetState(BoardState.DiceRoll);
                 break;
+            case BoardState.End:
+                Camera.main.GetComponent<CameraController>().target = Camera.main.GetComponent<CameraController>().overHead;
+                break;
         }
+
+        playerUI.GetComponent<PlayerUIController>().UpdateUI();
     }
 
-    public static void RolledNumber(int num)
+    public void RolledNumber(int num)
     {
         SetState(BoardState.PlayerMove);
         dicenum = num;
@@ -231,7 +273,9 @@ public class BoardController : MonoBehaviour
 
                         if (GetNodeData(pc.data.place).type == "END")
                         {
-                            RemoveFromQueue(pc.data.id);
+                            PlayerData newpd = GetPlayerData(queue[0]);
+                            newpd.finished = true;
+                            SetPlayerData(queue[0], newpd);
                             dicenum = 0;
                         }
 
@@ -247,7 +291,7 @@ public class BoardController : MonoBehaviour
                     {
                         if (GetNodeData(pc.data.place).type == "END")
                         {
-                            Continue();
+                            Continue(false);
                         }
                         else if (GetNodeData(pc.data.place).type == "DARE")
                         {
@@ -262,22 +306,43 @@ public class BoardController : MonoBehaviour
                 break;
             case BoardState.NextPlayerAnimate:
                 break;
+            case BoardState.End:
+                break;
         }
     }
 
-    public static void SelectPath(int nodeid)
+    public void SelectPath(int nodeid)
     {
+
+        foreach (Transform path in GetNode(currentPlayer.GetComponent<PlayerController>().data.place).GetComponent<NodeController>().paths)
+        {
+            path.GetComponent<PathAnimator>().SetState(PathAnimator.PathState.Idle);
+        }
         SetState(BoardState.PlayerMove);
         tonode = nodeid;
     }
 
-    public void Continue()
+    public void Continue(bool addPoints)
     {
+        if (addPoints)
+        {
+            currentPlayer.GetComponent<PlayerController>().data.score += transform.GetChild(currentPlayer.GetComponent<PlayerController>().data.place).GetComponent<NodeController>().data.value;
+        }
         SetState(BoardState.NextPlayerAnimate);
     }
 
-    public void RemoveFromQueue(int id)
+    public void ExitGame()
     {
-        GetPlayer(id).SetParent(endPlayerParent);
+        SceneManager.LoadScene(0);
+    }
+
+    public BoardData GetData()
+    {
+        return boardData;
+    }
+
+    public void SetData(BoardData data)
+    {
+        boardData = data;
     }
 }

@@ -8,40 +8,52 @@ public class BoardSelect : MonoBehaviour
 
     public GameObject buttonPrefab;
 
-    private List<BoardData> loadedBoards;
+    public bool create;
 
-    private List<Transform> buttons = new List<Transform>();
+    private int count;
 
     public void LoadBoards(string type)
     {
-        loadedBoards = new List<BoardData>();
-        foreach (Transform button in buttons)
+        string datapath = Application.persistentDataPath;
+
+        DirectoryInfo dir = new DirectoryInfo(datapath + "/BOARDS/" + type + "/");
+        FileInfo[] files = dir.GetFiles();
+
+        count = 0;
+
+        foreach (FileInfo file in files)
         {
-            Destroy(button.gameObject);
+            if (file.Extension == ".meta") continue;
+
+            AddButton(file.FullName);
         }
-        buttons = new List<Transform>();
-        switch (type)
+    }
+
+    private void AddButton(string dir)
+    {
+        BoardData board = JsonUtility.FromJson<BoardData>(File.ReadAllText(dir));
+
+        GameObject button = Instantiate(buttonPrefab) as GameObject;
+        button.transform.SetParent(transform);
+        button.transform.GetComponent<RectTransform>().anchoredPosition= new Vector2(0, -350 - (125 * count));
+        button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = board.properties.name;
+        button.transform.GetComponent<PlayButton>().board = board;
+        button.transform.GetComponent<PlayButton>().create = create;
+        button.transform.GetChild(1).gameObject.SetActive(create);
+
+        count++;
+    }
+
+    public void ClearButtons()
+    {
+        for (int i = transform.childCount; i > 1; i--)
         {
-            case "DEFAULT":
-                int i = 0;
-                foreach(string dir in Directory.GetFiles(Application.dataPath + "/Boards/"))
-                {
-                    if (dir.IndexOf(".meta") != -1) continue;
-                    BoardData board = JsonUtility.FromJson<BoardData>(File.ReadAllText(dir));
-
-                    loadedBoards.Add(board);
-
-                    GameObject button = Instantiate(buttonPrefab) as GameObject;
-                    buttons.Add(button.transform);
-                    button.transform.SetParent(transform);
-                    button.transform.localPosition = new Vector3(0, 300 + 120 * i, 0);
-
-                    button.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = loadedBoards[i].properties.name;
-                    button.transform.GetComponent<PlayButton>().board = board;
-
-                    i++;
-                }
-                break;
+            Destroy(transform.GetChild(i - 1).gameObject);
         }
+    }
+
+    public void SetCreate(bool c)
+    {
+        create = c;
     }
 }

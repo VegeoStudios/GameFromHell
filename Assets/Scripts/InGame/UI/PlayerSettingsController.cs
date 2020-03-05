@@ -7,7 +7,6 @@ public class PlayerSettingsController : MonoBehaviour
     private bool dragging = false;
     private float targetLoc;
     private float targetScale = 1;
-
     private float previousPos = 0;
 
     public void Update()
@@ -20,6 +19,7 @@ public class PlayerSettingsController : MonoBehaviour
     {
         dragging = true;
         targetScale = 1.2f;
+        transform.SetAsLastSibling();
     }
 
     public void EndDrag()
@@ -49,7 +49,7 @@ public class PlayerSettingsController : MonoBehaviour
     {
         if (Mathf.Abs(targetScale - transform.localScale.x) > 1)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(targetScale, targetScale, targetScale), 0.1f);
+            transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(targetScale, targetScale, targetScale), 0.02f);
         } else if (targetScale != transform.localScale.x)
         {
             transform.localScale = new Vector3(targetScale, targetScale, targetScale);
@@ -57,10 +57,10 @@ public class PlayerSettingsController : MonoBehaviour
 
         if (Mathf.Abs(targetLoc - transform.localPosition.y) > 1)
         {
-            transform.localPosition = new Vector3(0, Mathf.Lerp(transform.localPosition.y, targetLoc, 0.1f));
+            transform.localPosition = new Vector3(0, Mathf.Lerp(transform.localPosition.y, targetLoc, 0.5f));
         } else if (targetLoc != transform.localPosition.y)
         {
-            transform.localPosition = new Vector3(0, targetLoc, 0);
+            transform.localPosition = new Vector3(0, targetLoc);
         }
     }
 
@@ -71,7 +71,7 @@ public class PlayerSettingsController : MonoBehaviour
             targetLoc = Input.GetTouch(0).position.y - 600;
         } else
         {
-            targetLoc = 440 - PlayerMenuController.playerList.IndexOf(transform) * 120;
+            targetLoc = 500 - PlayerMenuController.playerList.IndexOf(transform) * 120;
         }
 
         previousPos = targetLoc;

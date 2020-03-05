@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DiceController : MonoBehaviour
 {
@@ -17,7 +18,17 @@ public class DiceController : MonoBehaviour
     float throwForceInZ = 50f;
 
 
-    public Vector3[] sideAngles;
+    private List<Vector3> dirs = new List<Vector3>(new Vector3[]
+    {
+        Vector3.left,
+        Vector3.back,
+        Vector3.up,
+        Vector3.down,
+        Vector3.forward,
+        Vector3.right
+    });
+    public List<Vector3> rotations = new List<Vector3>();
+    private Vector3 upDir;
 
     private Vector3 targetPos;
 
@@ -33,6 +44,7 @@ public class DiceController : MonoBehaviour
     public bool rolling = false;
 
     private bool tapped = false;
+    private bool validRoll = false;
 
     private void Start()
     {
@@ -53,7 +65,7 @@ public class DiceController : MonoBehaviour
 
     private void Process()
     {
-        if (!hidden && !rolled)
+        if (!hidden && !rolled && !rolling)
         {
             if (tapped)
             {
@@ -63,33 +75,50 @@ public class DiceController : MonoBehaviour
 
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                touchTimeStart = Time.time;
-                startPos = Input.GetTouch(0).position;
+                validRoll = false;
+                Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.transform == transform)
+                    {
+                        validRoll = true;
+                        touchTimeStart = Time.time;
+                        startPos = Input.GetTouch(0).position;
+                    }
+                }
             }
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
-                touchTimeFinish = Time.time;
-                timeInterval = touchTimeFinish - touchTimeStart;
+                if (validRoll)
+                {
+                    touchTimeFinish = Time.time;
+                    timeInterval = touchTimeFinish - touchTimeStart;
 
-                if (timeInterval < 0.16f) timeInterval = 0.16f;
+                    if (timeInterval < 0.16f) timeInterval = 0.16f;
 
-                endPos = Input.GetTouch(0).position;
+                    endPos = Input.GetTouch(0).position;
 
-                direction = startPos - endPos;
+                    direction = startPos - endPos;
 
-                transform.GetComponent<Rigidbody>().isKinematic = false;
-                transform.GetComponent<Rigidbody>().AddForce(-direction.x * throwForceInX, -direction.y * throwForceInY, throwForceInZ / timeInterval);
-                transform.GetComponent<Rigidbody>().AddTorque(-direction.x * throwForceInX, -direction.y * throwForceInY, throwForceInZ / timeInterval);
+                    transform.GetComponent<Rigidbody>().isKinematic = false;
+                    transform.GetComponent<Rigidbody>().AddForce(-direction.x * throwForceInX, -direction.y * throwForceInY, throwForceInZ / timeInterval);
 
-                rolling = true;
 
-                transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                    rolling = true;
+
+                    transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+                    transform.GetComponent<Rigidbody>().AddTorque(new Vector3(timeInterval * 10, 0, 0), ForceMode.Impulse);
+
+                    transform.SetParent(null);
+                }
             }
         }
 
         if (rolling)
         {
-            if (transform.position.y < 0)
+            if (transform.position.y < BoardController.board.transform.position.y)
             {
                 Standby();
                 return;
@@ -100,19 +129,9 @@ public class DiceController : MonoBehaviour
                 transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 rolled = true;
                 rolling = false;
+                transform.SetParent(Camera.main.transform);
 
-                int closestnum = 0;
-                float dist = 10000;
-
-                for (int i = 1; i <= 6; i++)
-                {
-                    if (Vector3.Distance(transform.eulerAngles, sideAngles[i - 1]) < dist)
-                    {
-                        dist = Vector3.Distance(transform.eulerAngles, sideAngles[i - 1]);
-                        closestnum = i;
-                    }
-                }
-                currentNum = closestnum;
+                currentNum = GetUpSide() + 1;
             }
         }
 
@@ -120,10 +139,9 @@ public class DiceController : MonoBehaviour
         {
             if (transform.localPosition == new Vector3(0, -0.3f, 1.0f))
             {
-                if (BoardController.state == BoardController.BoardState.DiceRoll)
+                if (BoardController.board.state == BoardController.BoardState.DiceRoll)
                 {
-                    BoardController.RolledNumber(currentNum);
-                    print("Rolled: " + currentNum);
+                    BoardController.board.RolledNumber(currentNum);
                 }
             }
         }
@@ -136,13 +154,13 @@ public class DiceController : MonoBehaviour
 
         if (rolled)
         {
-            if (Vector3.Distance(transform.eulerAngles, sideAngles[currentNum - 1]) < 0.01)
+            if (Vector3.Distance(transform.eulerAngles, rotations[currentNum - 1]) < 0.01)
             {
-                transform.eulerAngles = sideAngles[currentNum - 1];
+                transform.eulerAngles = rotations[currentNum - 1];
             }
             else
             {
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(sideAngles[currentNum - 1]), 4);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(rotations[currentNum - 1]), 10);
             }
         }
         else
@@ -152,7 +170,7 @@ public class DiceController : MonoBehaviour
 
         if (Vector3.Distance(transform.localPosition, targetPos) > 0.01)
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, 0.1f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, 0.2f);
         }
         else
         {
@@ -181,5 +199,24 @@ public class DiceController : MonoBehaviour
     {
         targetPos = hiddenPos;
         hidden = true;
+    }
+
+    private int GetUpSide()
+    {
+        int closestDir = 0;
+        float closestDot = -1;
+
+        for (var i = 0; i < dirs.Count; i++)
+        {
+            float dot = Vector3.Dot(transform.TransformDirection(dirs[i]), Vector3.up);
+
+            if (dot > closestDot)
+            {
+                closestDot = dot;
+                closestDir = i;
+            }
+        }
+
+        return closestDir;
     }
 }

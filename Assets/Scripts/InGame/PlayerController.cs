@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public bool stationary = true;
 
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 vel = Vector3.zero;
 
     public void Update()
     {
@@ -24,13 +24,13 @@ public class PlayerController : MonoBehaviour
 
     public void Init(PlayerData pd)
     {
-        data = pd;
+        this.data = pd;
 
         transform.GetComponent<MeshRenderer>().material.SetColor("color", pd.color);
         transform.GetComponent<MeshRenderer>().material.color = pd.color;
 
-        transform.position = BoardController.GetNode(data.place).position;
-        SetPosition(BoardController.GetNode(data.place));
+        transform.position = BoardController.board.GetNode(data.place).position;
+        SetPosition(BoardController.board.GetNode(data.place));
     }
 
     public void SetPosition(Transform position)
@@ -44,30 +44,27 @@ public class PlayerController : MonoBehaviour
 
     private void Process()
     {
-        if (Camera.main.GetComponent<CameraController>().target == BoardController.GetNode(data.place).GetChild(1))
+        if (Camera.main.GetComponent<CameraController>().target == BoardController.board.GetNode(data.place).GetChild(1))
         {
-            truedist = 3;
+            truedist = 2;
         } else
         {
             truedist = dist;
         }
 
-        target = BoardController.GetNode(data.place).position + new Vector3(Mathf.Cos(angle) * truedist, 0.3f, Mathf.Sin(angle) * truedist); ;
+        target = BoardController.board.GetNode(data.place).GetChild(2).position + new Vector3(Mathf.Cos(angle) * truedist, 0.3f, Mathf.Sin(angle) * truedist); ;
 
         
     }
 
     private void Animate()
     {
-        if (Vector3.Distance(target, transform.position) > 0.01)
-        {
-            transform.position = Vector3.SmoothDamp(transform.position, target, ref velocity, 0.35f);
-            stationary = false;
-        }
-        else if (target != transform.position)
-        {
-            transform.position = target;
-            stationary = true;
-        }
+        stationary = Vector3.Distance(target, transform.position) < 1;
+        transform.position = Vector3.SmoothDamp(transform.position, target, ref vel, 0.5f);
+    }
+
+    public PlayerData GetData()
+    {
+        return data;
     }
 }

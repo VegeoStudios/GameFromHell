@@ -6,6 +6,8 @@ public class NewPlayerButton : MonoBehaviour
 {
     private float targetLoc;
 
+    public float y;
+
     public void Update()
     {
         Process();
@@ -26,6 +28,6 @@ public class NewPlayerButton : MonoBehaviour
 
     private void Process()
     {
-        targetLoc = 450 - (PlayerMenuController.playerList.Count) * 120;
+        targetLoc = y - (PlayerMenuController.playerList.Count) * 120;
     }
 }

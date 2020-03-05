@@ -12,6 +12,9 @@ public class PathAnimator : MonoBehaviour
     public Color[] colors;
 
     public Transform destination;
+    public Transform from;
+
+    public static List<Transform> paths;
 
     public enum PathState
     {
@@ -73,7 +76,7 @@ public class PathAnimator : MonoBehaviour
             {
                 if (touch.phase == TouchPhase.Ended)
                 {
-                    BoardController.SelectPath(destination.GetComponent<NodeController>().data.id);
+                    BoardController.board.SelectPath(destination.GetComponent<NodeController>().data.id);
                 }
             }
         }
@@ -98,6 +101,20 @@ public class PathAnimator : MonoBehaviour
 
     private void Animate()
     {
+        if (destination != null)
+        {
+            if (new Vector3[] { from.position, destination.position } != GetPositions())
+            {
+                SetPositions(from.position, destination.position);
+            }
+        } else if (Input.touchCount > 0)
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, Camera.main.transform.position.y - CreationController.cc.backgroundPlane.position.y));
+            if (CreationController.cc.addPathNode != null) pos = CreationController.cc.addPathNode.position;
+            pos.y = 0;
+            SetPositions(from.position, pos);
+        }
+
         LineRenderer lr = transform.GetChild(0).GetComponent<LineRenderer>();
         Vector2 offset = lr.material.GetTextureOffset("_MainTex");
 
@@ -115,5 +132,37 @@ public class PathAnimator : MonoBehaviour
         LineRenderer lr = transform.GetChild(0).GetComponent<LineRenderer>();
         lr.startColor = color;
         lr.endColor = color;
+    }
+
+    public void SetPositions(Vector3 p0, Vector3 p1)
+    {
+        LineRenderer lr = GetComponent<LineRenderer>();
+        p0.y--;
+        p1.y--;
+        lr.SetPositions(new Vector3[]{p0, p1});
+        p0.y += 0.5f;
+        p1.y += 0.5f;
+        transform.GetChild(0).GetComponent<LineRenderer>().SetPositions(new Vector3[] { p0, p1 });
+    }
+
+    public Vector3[] GetPositions()
+    {
+        Vector3 p0 = GetComponent<LineRenderer>().GetPosition(0);
+        p0.y++;
+        Vector3 p1 = GetComponent<LineRenderer>().GetPosition(1);
+        p1.y++;
+        return new Vector3[] {p0, p1};
+    }
+
+    public void SetNodes(Transform node0, Transform node1)
+    {
+        from = node0;
+        destination = node1;
+    }
+
+    public void Init()
+    {
+        if (paths == null) paths = new List<Transform>();
+        paths.Add(transform);
     }
 }

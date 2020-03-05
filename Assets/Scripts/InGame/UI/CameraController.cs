@@ -6,11 +6,16 @@ public class CameraController : MonoBehaviour
 {
     public Transform target;
 
+    public Transform overHead;
+
     public bool locked = false;
 
-    private float rate = 0.2f;
+    public float rate;
+    private float[] rates = { 0.6f, 0.5f, 0.15f, 0.6f, 0.6f, 0.5f, 0.9f };
 
-    private void Update()
+    private Vector3 vel0 = Vector3.zero, vel1 = Vector3.zero;
+
+    public void LateUpdate()
     {
         Animate();
     }
@@ -18,14 +23,12 @@ public class CameraController : MonoBehaviour
     private void Animate()
     {
         
-        transform.position = Vector3.Lerp(transform.position, target.position, rate);
+        transform.position = Vector3.SmoothDamp(transform.position, target.position, ref vel0, rate);
+        transform.eulerAngles = Vector3.SmoothDamp(transform.eulerAngles, target.eulerAngles, ref vel1, rate);
+    }
 
-        if (Vector3.Distance(transform.eulerAngles, target.eulerAngles) > 0.05)
-        {
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, target.eulerAngles, rate);
-        } else if (transform.eulerAngles != target.eulerAngles)
-        {
-            transform.eulerAngles = target.eulerAngles;
-        }
+    public float[] GetRates()
+    {
+        return rates;
     }
 }

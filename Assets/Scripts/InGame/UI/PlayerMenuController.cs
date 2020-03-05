@@ -7,7 +7,7 @@ public class PlayerMenuController : MonoBehaviour
     public bool dragging = false;
     public GameObject playerSettingsPrefab;
 
-    public static List<Transform> playerList = new List<Transform>();
+    public static List<Transform> playerList;
     public static PlayerMenuController playerMenuController;
 
     public Transform newPlayerButton;
@@ -16,6 +16,7 @@ public class PlayerMenuController : MonoBehaviour
     public void Start()
     {
         playerMenuController = this;
+        playerList = new List<Transform>();
     }
 
     public void AddPlayer()
