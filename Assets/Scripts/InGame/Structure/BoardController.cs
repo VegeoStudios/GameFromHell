@@ -68,7 +68,7 @@ public class BoardController : MonoBehaviour
 
         if (boardData == null)
         {
-            boardData = JsonUtility.FromJson<BoardData>(File.ReadAllText(Application.streamingAssetsPath + "/DefaultBoards/OG.json"));
+            boardData = JsonUtility.FromJson<BoardData>(File.ReadAllText(Application.dataPath + "/Resources/OG.json"));
         }
 
         foreach(NodeData node in boardData.nodes)

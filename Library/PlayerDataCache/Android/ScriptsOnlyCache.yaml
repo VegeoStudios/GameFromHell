@@ -14,6 +14,7 @@ ScriptsOnlyBuild:
     - InitializerScript
     - KeyboardAnimator
     - LightController
+    - LinkOpener
     - NewPlayerButton
     - NodeController
     - NodeVal
@@ -29,6 +30,7 @@ ScriptsOnlyBuild:
     - TimerController
     - TypeAnimator
     - UIController
+    - Warning
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
@@ -45,7 +47,6 @@ ScriptsOnlyBuild:
     - TMPro.TextMeshProUGUI
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
-    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.EventTrigger
@@ -114,27 +115,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10716}
     - Class: 114
-      Script: {instanceID: 10936}
+      Script: {instanceID: 10938}
     - Class: 114
-      Script: {instanceID: 10958}
+      Script: {instanceID: 10960}
     - Class: 114
-      Script: {instanceID: 11044}
+      Script: {instanceID: 11046}
     - Class: 114
-      Script: {instanceID: 11064}
+      Script: {instanceID: 11066}
     - Class: 114
-      Script: {instanceID: 11130}
+      Script: {instanceID: 11132}
     - Class: 114
-      Script: {instanceID: 11194}
+      Script: {instanceID: 11196}
     - Class: 114
-      Script: {instanceID: 11290}
+      Script: {instanceID: 11292}
     - Class: 114
-      Script: {instanceID: 11434}
+      Script: {instanceID: 11436}
     - Class: 114
-      Script: {instanceID: 11468}
+      Script: {instanceID: 11470}
     - Class: 114
-      Script: {instanceID: 11540}
+      Script: {instanceID: 11542}
     - Class: 114
-      Script: {instanceID: 11574}
+      Script: {instanceID: 11576}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -187,21 +188,25 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10710}
     - Class: 114
-      Script: {instanceID: 10936}
+      Script: {instanceID: 10928}
     - Class: 114
-      Script: {instanceID: 10950}
+      Script: {instanceID: 10938}
     - Class: 114
-      Script: {instanceID: 11130}
+      Script: {instanceID: 10952}
     - Class: 114
-      Script: {instanceID: 11176}
+      Script: {instanceID: 11132}
     - Class: 114
-      Script: {instanceID: 11194}
+      Script: {instanceID: 11178}
     - Class: 114
-      Script: {instanceID: 11232}
+      Script: {instanceID: 11196}
     - Class: 114
-      Script: {instanceID: 11366}
+      Script: {instanceID: 11234}
     - Class: 114
-      Script: {instanceID: 11574}
+      Script: {instanceID: 11368}
+    - Class: 114
+      Script: {instanceID: 11576}
+    - Class: 114
+      Script: {instanceID: 11596}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -286,23 +291,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10808}
     - Class: 114
-      Script: {instanceID: 10936}
+      Script: {instanceID: 10938}
     - Class: 114
-      Script: {instanceID: 10958}
+      Script: {instanceID: 10960}
     - Class: 114
-      Script: {instanceID: 11130}
+      Script: {instanceID: 11132}
     - Class: 114
-      Script: {instanceID: 11194}
+      Script: {instanceID: 11196}
     - Class: 114
-      Script: {instanceID: 11252}
+      Script: {instanceID: 11254}
     - Class: 114
-      Script: {instanceID: 11468}
+      Script: {instanceID: 11470}
     - Class: 114
-      Script: {instanceID: 11490}
+      Script: {instanceID: 11492}
     - Class: 114
-      Script: {instanceID: 11540}
+      Script: {instanceID: 11542}
     - Class: 114
-      Script: {instanceID: 11574}
+      Script: {instanceID: 11576}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -688,6 +693,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalReceiver
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Warning
   - hash:
       serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
